@@ -4,6 +4,7 @@ import crystalImageUrls from './crystalImageUrls';
 import crystalLore from './crystalLore';
 import getProductLore from './productLore';
 import productCatalog from './productCatalog.json';
+import getPublicUrl from './publicUrl';
 
 const whatsappNumber = '917795119975';
 const catalogTabs = [
@@ -296,7 +297,7 @@ function CrystalsPage() {
                   <article className="crystal-item" key={crystal}>
                     <img
                       className="crystal-photo"
-                      src={crystalImageUrls[crystal]}
+                      src={getPublicUrl(crystalImageUrls[crystal])}
                       alt={`${crystal} crystal`}
                       loading="lazy"
                       decoding="async"
@@ -331,7 +332,7 @@ function CrystalsPage() {
                   <article className="crystal-item" key={product.id}>
                     <img
                       className="crystal-photo"
-                      src={product.image}
+                      src={getPublicUrl(product.image)}
                       alt={product.name}
                       loading="lazy"
                       decoding="async"

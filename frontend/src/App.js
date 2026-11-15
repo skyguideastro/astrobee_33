@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import profileLogo from './astrobee-profile.png';
 import './App.css';
 import CrystalsPage from './CrystalsPage';
+import getPublicUrl from './publicUrl';
 
 const whatsappNumber = '917795119975';
 
@@ -144,13 +145,13 @@ function App() {
         </div>
 
         <nav className="site-nav" aria-label="Main navigation">
-          <a href="/" aria-current={!isCrystalsPage ? 'page' : undefined}>
+          <a href={getPublicUrl('/')} aria-current={!isCrystalsPage ? 'page' : undefined}>
             Guidance
           </a>
-          <a href="/?page=crystals" aria-current={isCrystalsPage ? 'page' : undefined}>
+          <a href={getPublicUrl('/?page=crystals')} aria-current={isCrystalsPage ? 'page' : undefined}>
             Crystals
           </a>
-          <a href="/#booking" className="site-nav-booking">
+          <a href={getPublicUrl('/#booking')} className="site-nav-booking">
             Book
           </a>
         </nav>

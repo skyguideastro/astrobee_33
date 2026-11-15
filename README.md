@@ -71,6 +71,16 @@ PORT=3000 HOST=0.0.0.0 npm start
 
 - `http://localhost:3000`
 
+## Deploy on Netlify
+
+The frontend is a static React site and does not currently call the backend API. The root `netlify.toml` config builds `frontend/` and publishes its `build/` directory.
+
+1. Import `skyguideastro/astrobee_33` in Netlify and authorize access to the repository.
+2. Deploy from the `main` branch; Netlify will use the settings in `netlify.toml` and automatically deploy future pushes.
+3. After the first successful deploy, add `astrobee33.com` under the site's **Domain management** settings and configure the DNS records Netlify provides at your domain registrar.
+
+Netlify Free currently includes custom domains and SSL within its usage limits. Domain registration is a separate annual cost.
+
 ## Database
 
 The database folder contains scripts for database setup and a local visualizer.
