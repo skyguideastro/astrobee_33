@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import profileLogo from './astrobee-profile.jpg';
 import './App.css';
+import CrystalsPage from './CrystalsPage';
 
-const crystalCollection = [
+const services = [
   {
-    name: 'Rose Quartz',
-    mood: 'Love & self-trust',
-    color: 'rose',
-    description: 'A soft heart-stone for emotional healing, gentleness, and opening to compassion.',
+    number: '01',
+    name: 'Astrology',
+    description: 'Explore astrological themes and cycles as a way to reflect on questions and personal experiences.',
   },
   {
-    name: 'Amethyst',
-    mood: 'Calm & intuition',
-    color: 'purple',
-    description: 'A soothing crystal for rest, clarity, and connecting with your inner wisdom.',
+    number: '02',
+    name: 'Numerology',
+    description: 'Explore the symbolic meanings of numbers and the patterns they may bring into focus.',
   },
   {
-    name: 'Clear Quartz',
-    mood: 'Focus & energy',
-    color: 'clear',
-    description: 'An amplifier stone for intention-setting, focus, and bringing your goals into motion.',
+    number: '03',
+    name: 'Chakra balancing',
+    description: 'A mindful practice centered on the chakras and cultivating a sense of inner balance.',
   },
   {
-    name: 'Citrine',
-    mood: 'Joy & abundance',
-    color: 'gold',
-    description: 'A radiant stone for optimism, confidence, and fresh momentum in your day.',
+    number: '04',
+    name: 'Crystal guidance',
+    description: 'Learn about crystals and explore ways to choose them for personal intention and ritual.',
+  },
+  {
+    number: '05',
+    name: 'Cord cutting',
+    description: 'A reflective practice for acknowledging attachments and setting intentions for moving forward.',
   },
 ];
 
@@ -33,6 +35,7 @@ function App() {
   const [theme, setTheme] = useState('light');
   const [backendStatus, setBackendStatus] = useState('Checking backend...');
   const [backendInfo, setBackendInfo] = useState('Loading API info...');
+  const isCrystalsPage = new URLSearchParams(window.location.search).get('page') === 'crystals';
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -68,12 +71,21 @@ function App() {
     <div className="App">
       <header className="topbar">
         <div className="brand-wrap">
-          <img src={logo} alt="Astrobee 33 logo" className="brand-logo" />
+          <img src={profileLogo} alt="Astrobee 33 logo" className="brand-logo" />
           <div className="brand-copy">
-            <span className="brand-kicker">Crystals by</span>
+            <span className="brand-kicker">Astrology & energy guidance</span>
             <h1>Astrobee 33</h1>
           </div>
         </div>
+
+        <nav className="site-nav" aria-label="Main navigation">
+          <a href="/" aria-current={!isCrystalsPage ? 'page' : undefined}>
+            Guidance
+          </a>
+          <a href="/?page=crystals" aria-current={isCrystalsPage ? 'page' : undefined}>
+            Crystals
+          </a>
+        </nav>
 
         <button
           className="theme-toggle"
@@ -85,67 +97,99 @@ function App() {
       </header>
 
       <main className="page-shell">
+        {isCrystalsPage ? (
+          <CrystalsPage />
+        ) : (
+          <>
         <section className="hero">
           <div className="hero-copy">
-            <p className="eyebrow">Natural stones • ritual energy • small-batch</p>
-            <h2>Crystals for calm, clarity, and intention.</h2>
+            <p className="eyebrow">Astrology · Numerology · Energy guidance</p>
+            <h2>Find a little more meaning in your journey.</h2>
             <p className="lead">
-              Thoughtfully chosen stones to support grounding, self-love, and a softer daily rhythm.
+              Bhumika Rittimath of Astrobee 33 shares astrology, numerology, chakra
+              balancing, crystal guidance, and cord cutting.
             </p>
 
             <div className="cta-row">
-              <a href="#shop" className="primary-btn">Shop the collection</a>
-              <a href="#about" className="secondary-btn">Learn more</a>
+              <a href="#services" className="primary-btn">Explore services</a>
+              <a
+                href="https://www.instagram.com/astrobee_33/"
+                className="secondary-btn"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Visit Instagram
+              </a>
             </div>
 
-            <ul className="benefits-list">
-              <li>Ethically sourced pieces</li>
-              <li>Handpicked for energy</li>
-              <li>Perfect for altars & rituals</li>
+            <ul className="benefits-list" aria-label="Profile services">
+              <li>Astrology</li>
+              <li>Numerology</li>
+              <li>Chakra balancing</li>
+              <li>Crystal guidance</li>
+              <li>Cord cutting</li>
             </ul>
           </div>
 
           <div className="hero-feature">
             <div className="feature-card feature-card-main">
-              <span className="mini-label">Featured crystal</span>
-              <h3>Rose Quartz</h3>
-              <p>Soft, grounding, and full of heart-centered energy.</p>
-              <div className="gem gem-rose" aria-hidden="true" />
+              <span className="mini-label">Meet your guide</span>
+              <h3>Bhumika Rittimath</h3>
+              <p>Astrologer · Numerologist · Crystal guide</p>
+              <img src={profileLogo} alt="Astrobee 33 profile logo" className="profile-mark" />
             </div>
           </div>
         </section>
 
         <section id="about" className="info-strip">
           <div>
-            <strong>Energy-first</strong>
-            <span>Curated for intention and everyday ritual.</span>
+            <strong>Astrology</strong>
+            <span>One of the practices featured on the Astrobee 33 profile.</span>
           </div>
           <div>
-            <strong>Beautifully chosen</strong>
-            <span>Natural textures, grounding colors, and elevated vibes.</span>
+            <strong>Numerology</strong>
+            <span>Numerology is also listed among Bhumika's areas of guidance.</span>
           </div>
           <div>
-            <strong>Made with care</strong>
-            <span>Thoughtful sourcing and mindful curation.</span>
+            <strong>Energy practices</strong>
+            <span>Chakra balancing, crystal guidance, and cord cutting.</span>
           </div>
         </section>
 
-        <section id="shop" className="shop-section">
+        <section id="services" className="services-section">
           <div className="section-heading">
-            <p className="eyebrow">The collection</p>
-            <h3>Crystal essentials</h3>
+            <p className="eyebrow">Astrobee 33</p>
+            <h3>Guidance & practices</h3>
+            <p className="section-description">
+              Astrobee 33's profile lists these practices. For current session details,
+              connect with Bhumika directly.
+            </p>
           </div>
 
-          <div className="crystal-grid">
-            {crystalCollection.map((crystal) => (
-              <article key={crystal.name} className={`crystal-card ${crystal.color}`}>
-                <div className={`gem gem-${crystal.color}`} aria-hidden="true" />
-                <span className="chip">{crystal.mood}</span>
-                <h4>{crystal.name}</h4>
-                <p>{crystal.description}</p>
+          <div className="service-grid">
+            {services.map((service) => (
+              <article key={service.number} className="service-card">
+                <span className="service-number">{service.number}</span>
+                <h4>{service.name}</h4>
+                <p>{service.description}</p>
               </article>
             ))}
           </div>
+        </section>
+
+        <section className="profile-link">
+          <div>
+            <span className="status-label">Instagram</span>
+            <strong>@astrobee_33</strong>
+          </div>
+          <a
+            href="https://www.instagram.com/astrobee_33/"
+            className="primary-btn"
+            target="_blank"
+            rel="noreferrer"
+          >
+            View profile
+          </a>
         </section>
 
         <section className="status-panel">
@@ -158,6 +202,8 @@ function App() {
             <strong>{backendInfo}</strong>
           </div>
         </section>
+          </>
+        )}
       </main>
     </div>
   );

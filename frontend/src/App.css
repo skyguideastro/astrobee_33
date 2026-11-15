@@ -109,6 +109,31 @@ a {
   text-transform: uppercase;
 }
 
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+}
+
+.site-nav a {
+  padding: 9px 14px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.site-nav a[aria-current='page'] {
+  background: var(--button);
+  color: var(--button-text);
+}
+
 .theme-toggle {
   border: none;
   background: var(--button);
@@ -142,7 +167,7 @@ a {
 .hero-copy,
 .hero-feature,
 .info-strip,
-.crystal-card,
+.service-card,
 .status-panel {
   background: var(--panel);
   backdrop-filter: blur(6px);
@@ -279,29 +304,14 @@ a {
   margin: 0 0 20px;
 }
 
-.gem {
-  width: 160px;
-  height: 160px;
-  border-radius: 34% 66% 42% 58% / 46% 39% 61% 54%;
-  margin-top: auto;
-  box-shadow: inset 0 0 30px rgba(255,255,255,0.3), 0 24px 35px rgba(116, 81, 95, 0.18);
-  transform: rotate(18deg);
-}
-
-.gem-rose {
-  background: linear-gradient(135deg, #f6d5df, #d98aa0 45%, #b96a82);
-}
-
-.gem-purple {
-  background: linear-gradient(135deg, #e5dcff, #b792ee 45%, #7f5bc0);
-}
-
-.gem-clear {
-  background: linear-gradient(135deg, #edf5ff, #dfe5ff 40%, #a8c1ee);
-}
-
-.gem-gold {
-  background: linear-gradient(135deg, #fef0b0, #e0b85d 45%, #b7832c);
+.profile-mark {
+  width: 168px;
+  height: 168px;
+  margin: auto auto 0;
+  border: 5px solid rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 20px 40px rgba(116, 81, 95, 0.22);
 }
 
 .info-strip {
@@ -328,7 +338,7 @@ a {
   line-height: 1.6;
 }
 
-.shop-section {
+.services-section {
   margin-top: 36px;
 }
 
@@ -342,46 +352,64 @@ a {
   letter-spacing: -0.05em;
 }
 
-.crystal-grid {
+.section-description {
+  max-width: 650px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 12px 0 0;
+}
+
+.service-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 
-.crystal-card {
+.service-card {
   border-radius: 24px;
-  padding: 22px 18px 20px;
-  min-height: 270px;
+  padding: 24px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.crystal-card .gem {
-  width: 86px;
-  height: 86px;
-  margin-bottom: 16px;
+.service-number {
+  color: var(--rose-deep);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
 }
 
-.chip {
-  display: inline-block;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid var(--line);
-  color: var(--muted);
-  padding: 7px 10px;
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.crystal-card h4 {
+.service-card h4 {
   font-size: 1.6rem;
-  margin: 16px 0 10px;
+  margin: 24px 0 10px;
   letter-spacing: -0.04em;
 }
 
-.crystal-card p {
+.service-card p {
   color: var(--muted);
-  line-height: 1.7;
+  line-height: 1.65;
   margin: 0;
+}
+
+.profile-link {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px 22px;
+  border-radius: 22px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: 0 18px 36px var(--shadow);
+}
+
+.profile-link > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .status-panel {
@@ -415,7 +443,7 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .crystal-grid {
+  .service-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -426,6 +454,7 @@ a {
 
 @media (max-width: 640px) {
   .topbar {
+    flex-wrap: wrap;
     padding-top: 18px;
   }
 
@@ -440,10 +469,22 @@ a {
 
   .theme-toggle {
     padding: 9px 14px;
+    margin-left: auto;
   }
 
-  .crystal-grid {
+  .site-nav {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .service-grid {
     grid-template-columns: 1fr;
+  }
+
+  .profile-link {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .status-panel {
