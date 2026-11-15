@@ -1,0 +1,168 @@
+overview:
+  project_name: Astrology Services & Insights
+  description: 'Create an astrology services website where visitors can view services
+    offered (consultation, gems), read astrology updates/blogs, and other related
+    content. Needs pages for services, blog, about, contact, and ability to request/book
+    consultations. Admin should be able to post blogs/updates and manage service listings.
+    Include SEO-friendly structure and responsive design.
+
+
+    Instruction to follow: *Ensure that the Database Container is added, as the user
+    has selected a fullstack option.'
+  third_party_services: []
+  env:
+    TRUST_PROXY: 'true'
+    LOG_LEVEL: info
+    HEALTHCHECK_PATH: /healthz
+    FEATURE_FLAGS: '{}'
+    EXPERIMENTS_ENABLED: 'false'
+  # Runs once at session start from the project workspace root (e.g., /home/kavia/workspace/code-generation) - has sudo access
+  sessionStartupCommand: ''
+containers:
+- container_name: astrology_backend
+  description: 'Backend API for handling service requests, blog operations, consultation
+    bookings, and admin functionality. | Features: View services offered (consultations,
+    gems), SEO-friendly blog and article listing, Responsive site for mobile and desktop,
+    Request/book consultation form, Admin blog/service management dashboard, Pages:
+    home, services, blog, about, contact | Interfaces: REST API endpoints for services,
+    blogs, admin, bookings, and authentication.'
+  interfaces: API endpoints based of the project description
+  container_type: backend
+  dependent_containers:
+  - astrology_backend_database
+  workspace: astrology-services--insights-10000000680
+  container_root: astrology-services--insights-10000000680/astrology_backend
+  port: '3001'
+  framework: springboot
+  type: ''
+  buildCommand: ./gradlew build
+  startCommand: SERVER_PORT=<port> SERVER_ADDRESS=<host> ./gradlew bootRun
+  testCommand: ./gradlew test
+  installCommand: ./gradlew dependencies
+  lintCommand: ./../.init/.linter.sh
+  generateOpenapiCommand: ./gradlew bootRun
+  visual_edit_enabled: null
+  visual_edit_port: null
+  container_details:
+    features:
+    - ''
+  lintConfig: ''
+  routes: []
+  apiSpec: ''
+  auth: null
+  schema: ''
+  migrations: ''
+  seed: ''
+  env:
+    BACKEND_URL: https://vscode-internal-10859-beta.beta01.cloud.kavia.ai:3001
+    FRONTEND_URL: https://vscode-internal-10859-beta.beta01.cloud.kavia.ai:3000
+    WS_URL: ws://vscode-internal-10859-beta.beta01.cloud.kavia.ai:3001/ws
+    SITE_URL: https://vscode-internal-10859-beta.beta01.cloud.kavia.ai:3000
+    ALLOWED_ORIGINS: https://vscode-internal-10859-beta.beta01.cloud.kavia.ai:3000,http://localhost:3000,http://localhost:4000
+    ALLOWED_HEADERS: Content-Type,Authorization,X-Requested-With
+    ALLOWED_METHODS: GET,POST,PUT,DELETE,PATCH,OPTIONS
+    CORS_MAX_AGE: '3600'
+    COOKIE_DOMAIN: .vscode-internal-10859-beta.beta01.cloud.kavia.ai
+    TRUST_PROXY: 'true'
+    HOST: 0.0.0.0
+    UVICORN_HOST: 0.0.0.0
+    UVICORN_WORKERS: '1'
+    NODE_ENV: development
+    REQUEST_TIMEOUT_MS: '30000'
+    RATE_LIMIT_WINDOW_S: '60'
+    RATE_LIMIT_MAX: '100'
+    PORT: '3001'
+    LOG_LEVEL: info
+    HEALTHCHECK_PATH: /healthz
+    FEATURE_FLAGS: '{}'
+    EXPERIMENTS_ENABLED: 'false'
+- container_name: astrology_frontend
+  description: 'Frontend web application for end-user and admin interaction, displaying
+    services, blogs, and managing bookings. | Features: View services offered (consultations,
+    gems), SEO-friendly blog and article listing, Responsive site for mobile and desktop,
+    Request/book consultation form, Admin blog/service management dashboard, Pages:
+    home, services, blog, about, contact | Theme: auto | Layout: Header with navigation,
+    sidebar on blog/services pages, main content area, admin dashboard, responsive
+    grid layout for content, footer with contact/social/info. | Interfaces: Web UI
+    (Next.js SSR), communicates with backend via REST APIs.'
+  interfaces: API requests to the backend container
+  container_type: frontend
+  dependent_containers:
+  - astrology_frontend_backend
+  workspace: astrology-services--insights-10000000681
+  container_root: astrology-services--insights-10000000681/astrology_frontend
+  port: '3000'
+  framework: react
+  type: ''
+  buildCommand: npm install && npx tsc --noEmit && npm test -- --ci
+  startCommand: PORT=<port> HOST=<host> BROWSER=none npm start
+  testCommand: npm run test
+  installCommand: npm install
+  lintCommand: ./../.init/.linter.sh
+  generateOpenapiCommand: ''
+  visual_edit_enabled: null
+  visual_edit_port: null
+  container_details:
+    features:
+    - ''
+  lintConfig: ''
+  routes: []
+  apiSpec: ''
+  auth: null
+  schema: ''
+  migrations: ''
+  seed: ''
+  env:
+    API_BASE: https://vscode-internal-10859-beta.beta01.cloud.kavia.ai:3001
+    BACKEND_URL: https://vscode-internal-10859-beta.beta01.cloud.kavia.ai:3001
+    FRONTEND_URL: https://vscode-internal-10859-beta.beta01.cloud.kavia.ai:3000
+    WS_URL: ws://vscode-internal-10859-beta.beta01.cloud.kavia.ai:3001/ws
+    NODE_ENV: development
+    NEXT_TELEMETRY_DISABLED: '1'
+    ENABLE_SOURCE_MAPS: 'true'
+    PORT: '3000'
+    TRUST_PROXY: 'true'
+    LOG_LEVEL: info
+    HEALTHCHECK_PATH: /healthz
+    FEATURE_FLAGS: '{}'
+    EXPERIMENTS_ENABLED: 'false'
+- container_name: astrology_database
+  description: 'PostgreSQL database for persistent storage of blogs, services, bookings,
+    users, and admin data. | Features: Standard features | Interfaces: Database access
+    via SQL/PostgreSQL protocol'
+  interfaces: Database Accessible by the backend for data persistence
+  container_type: database
+  dependent_containers:
+  - astrology_database_backend
+  workspace: astrology-services--insights-10000000682
+  container_root: astrology-services--insights-10000000682/astrology_database
+  port: '5001'
+  framework: PostgreSQL
+  type: ''
+  buildCommand: chmod +x startup.sh && sudo ./startup.sh &
+  startCommand: sudo ./startup.sh && cd db_visualizer && PORT=<port> HOST=<host> BROWSER=none
+    npm start
+  testCommand: psql -h localhost -U appuser -d myapp -p 5000 -c "SELECT version();"
+  installCommand: cd db_visualizer && npm install
+  lintCommand: ./../.init/.linter.sh
+  generateOpenapiCommand: ''
+  visual_edit_enabled: null
+  visual_edit_port: null
+  container_details:
+    features:
+    - ''
+  lintConfig: ''
+  routes: []
+  apiSpec: ''
+  auth: null
+  schema: ''
+  migrations: ''
+  seed: ''
+  env:
+    PORT: '5001'
+    TRUST_PROXY: 'true'
+    LOG_LEVEL: info
+    HEALTHCHECK_PATH: /healthz
+    FEATURE_FLAGS: '{}'
+    EXPERIMENTS_ENABLED: 'false'
+knowledge_exclude_dirs: []

@@ -1,0 +1,17 @@
+.kavia/
+**/.git/
+**/.git/**
+node_modules/
+**/node_modules/
+build/
+**/build/
+**/target/
+.gradle/
+**/.gradle/
+dist/
+**/dist/
+coverage/
+**/coverage/
+*.log
+.vscode/
+.DS_Store
