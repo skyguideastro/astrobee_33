@@ -179,7 +179,6 @@ function CrystalsPage() {
   const selectCatalogTab = (tab) => {
     setSelectedCatalogTab(tab);
     setSearch('');
-    setSelectedZodiac('');
     setShowAllItems(false);
   };
 
@@ -190,7 +189,7 @@ function CrystalsPage() {
           <p className="crystals-eyebrow">The Astrobee 33 collection</p>
           <h2>Find a piece that speaks to you.</h2>
           <p>
-            Explore crystals, malas, beads, and bracelets. Message Bhumika for
+            Explore crystals, malas, beads, and bracelets. Message Astrobee 33 for
             current availability and pricing—no prices are listed here.
           </p>
           <div className="crystals-hero-actions">
@@ -241,7 +240,7 @@ function CrystalsPage() {
             <p>
               {isCrystalTab
                 ? 'Ask on WhatsApp to confirm which pieces and forms are currently available. Crystal meanings and zodiac links below reflect traditional spiritual associations; they vary by tradition and are not medical or scientifically established effects.'
-                : `Browse ${selectedTab.plural} and message Bhumika on WhatsApp to confirm current availability and pricing. Product meanings and zodiac links reflect traditional associations, vary by tradition, and are not medical or scientifically established effects. Prices are not displayed.`}
+                : `Browse ${selectedTab.plural} and message Astrobee 33 on WhatsApp to confirm current availability and pricing. Product meanings and zodiac links reflect traditional associations, vary by tradition, and are not medical or scientifically established effects. Prices are not displayed.`}
             </p>
           </div>
           <label className="crystal-search">
@@ -390,7 +389,7 @@ function CrystalsPage() {
         <div>
           <p className="crystals-eyebrow">Need help choosing?</p>
           <h3>Let’s find the right piece for you.</h3>
-          <p>Message Bhumika for current options, photos, and pricing.</p>
+          <p>Message Astrobee 33 for current options, photos, and pricing.</p>
         </div>
         <a
           href={getWhatsAppLink()}

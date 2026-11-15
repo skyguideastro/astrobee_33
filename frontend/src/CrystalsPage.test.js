@@ -130,6 +130,25 @@ test('shows use and traditional significance and filters beads by zodiac', () =>
   expect(screen.getByRole('button', { name: 'Pisces' })).toHaveAttribute('aria-pressed', 'true');
 });
 
+test('preserves the selected zodiac across tabs and excludes products without a mapped sign', () => {
+  render(<CrystalsPage />);
+
+  fireEvent.click(screen.getByRole('button', { name: 'Aries' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Malas' }));
+
+  expect(screen.getByRole('button', { name: 'Aries' })).toHaveAttribute('aria-pressed', 'true');
+  const filteredCount = Number(screen.getByText(/^\d+ malas$/).textContent.match(/^\d+/)[0]);
+  expect(filteredCount).toBeGreaterThan(0);
+  expect(filteredCount).toBeLessThan(35);
+
+  fireEvent.change(screen.getByRole('searchbox', { name: 'Find a mala' }), {
+    target: { value: 'Kamal Gatta' },
+  });
+
+  expect(screen.getByText('0 malas')).toBeInTheDocument();
+  expect(screen.getByText(/No malas match your search and zodiac selection/)).toBeInTheDocument();
+});
+
 test('filters gemstone bracelets by their traditional zodiac associations', () => {
   render(<CrystalsPage />);
   fireEvent.click(screen.getByRole('button', { name: 'Bracelets' }));

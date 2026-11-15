@@ -38,7 +38,12 @@ function getProductLore(product) {
           ? ` The material is traditionally associated with ${crystalLore[crystalMaterial].meaning.toLowerCase()}`
           : ''
       }`;
-  const zodiac = crystalMaterial ? crystalLore[crystalMaterial].zodiac : 'All zodiac signs';
+  let zodiac = 'Zodiac association not specified';
+  if (isRudraksha) {
+    zodiac = 'All zodiac signs';
+  } else if (crystalMaterial) {
+    zodiac = crystalLore[crystalMaterial].zodiac;
+  }
 
   return { whoCanUse, significance, zodiac };
 }
