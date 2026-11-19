@@ -25,6 +25,14 @@ const findCrystalMaterial = (productName) => {
 };
 
 function getProductLore(product) {
+  if (product.category === 'bracelets' && product.purpose) {
+    return {
+      whoCanUse: 'Anyone drawn to wear it as a personal or devotional reminder; wearing and care customs vary by tradition.',
+      significance: product.purpose,
+      zodiac: product.zodiac || 'Zodiac association not specified',
+    };
+  }
+
   const isRudraksha = /rudraksha|mukhi/i.test(product.name);
   const crystalMaterial = isRudraksha ? '' : findCrystalMaterial(product.name);
   const whoCanUse =

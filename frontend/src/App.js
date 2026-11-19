@@ -3,6 +3,7 @@ import profileLogo from './astrobee-profile.png';
 import './App.css';
 import CrystalsPage from './CrystalsPage';
 import getPublicUrl from './publicUrl';
+import sessionReviews from './sessionReviews';
 
 const whatsappNumber = '917795119975';
 
@@ -16,34 +17,27 @@ const services = [
   },
   {
     number: '02',
-    name: 'Numerology',
-    description: 'Explore symbolic number meanings and patterns as a way to reflect on your experiences.',
-    focus: 'Bring a question about the numbers or patterns you have noticed.',
-    preparation: 'Some methods use your full legal name and date of birth. Confirm what is needed and share personal details privately.',
-  },
-  {
-    number: '03',
     name: 'Chakra balancing',
     description: 'A mindful practice centered on chakra concepts and a sense of inner balance.',
     focus: 'Discuss the intentions and practices that feel supportive to you.',
     preparation: 'Think about what you would like to focus on, such as calm, focus, or balance, and whether you are open to meditation or guided visualization. No health details are needed; this is not medical care.',
   },
   {
-    number: '04',
+    number: '03',
     name: 'Crystal guidance',
     description: 'Learn about traditional crystal associations and choose pieces for personal intention.',
     focus: 'Explore crystal options, meanings, and ways to use them in a personal practice.',
     preparation: 'Think about an intention or area of life you would like to reflect on, such as focus or confidence. Crystal meanings vary by tradition and do not guarantee outcomes.',
   },
   {
-    number: '05',
+    number: '04',
     name: 'Cord cutting',
     description: 'A reflective practice for acknowledging attachments and setting intentions for moving forward.',
     focus: 'A reflective space to name what you are ready to release and what you want to nurture.',
     preparation: 'Consider the relationship or attachment you would like to reflect on and whether you feel ready to explore moving forward. Share only what feels comfortable.',
   },
   {
-    number: '06',
+    number: '05',
     name: 'Tarot',
     description: 'Explore card symbolism as a prompt for reflection on questions, patterns, and possible perspectives.',
     focus: 'Bring a question to explore through the themes and symbols in the cards.',
@@ -64,40 +58,8 @@ const insights = [
     title: 'Set an intention for the month',
     description: 'Choose one question you want to sit with, notice what supports your wellbeing, and pick one small step that feels realistic for you.',
   },
-  {
-    date: '15 November 2026',
-    category: 'Numerology',
-    title: 'Numbers as a reflection tool',
-    description: 'Numerology traditions give numbers symbolic meanings. You can use those ideas to prompt reflection without treating them as fixed predictions.',
-  },
 ];
 
-const faqs = [
-  {
-    question: 'How do I book a consultation?',
-    answer: 'Choose a service and send an inquiry through WhatsApp. Astrobee 33 can confirm availability and the next steps with you.',
-  },
-  {
-    question: 'How long is a session, and is it online?',
-    answer: 'Session length and format depend on availability. Ask Astrobee 33 to confirm the options before booking.',
-  },
-  {
-    question: 'What does a consultation cost?',
-    answer: 'Ask for the current fee when you inquire. Confirm the fee and what is included before you agree to a session.',
-  },
-  {
-    question: 'Do I need to share my birth details?',
-    answer: 'Some astrology readings may use birth date, time, and place. Astrobee 33 will tell you what is needed; share those details privately only after you are comfortable.',
-  },
-  {
-    question: 'What is the cancellation or rescheduling policy?',
-    answer: 'Please confirm the current rescheduling and cancellation terms with Astrobee 33 before confirming or paying for a session.',
-  },
-  {
-    question: 'Is spiritual guidance a substitute for professional advice?',
-    answer: 'No. Astrology, numerology, tarot, and energy practices are offered as spiritual or reflective guidance, not as medical, mental-health, legal, or financial advice.',
-  },
-];
 
 const createWhatsAppLink = (message) =>
   `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -112,12 +74,26 @@ function App() {
   const [selectedService, setSelectedService] = useState('Astrology');
   const [clientName, setClientName] = useState('');
   const [clientQuestion, setClientQuestion] = useState('');
+  const [customerReviewIndex, setCustomerReviewIndex] = useState(0);
   const isCrystalsPage = new URLSearchParams(window.location.search).get('page') === 'crystals';
   const selectedServiceDetails = services.find((service) => service.name === selectedService);
+  const customerReviews = sessionReviews.map((review, index) => ({
+    ...review,
+    id: `review-${index}`,
+  }));
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    if (!customerReviews.length) return undefined;
+    const reviewTimer = window.setInterval(() => {
+      setCustomerReviewIndex((current) => (current + 1) % customerReviews.length);
+    }, 5000);
+
+    return () => window.clearInterval(reviewTimer);
+  }, [customerReviews.length]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
@@ -172,11 +148,11 @@ function App() {
           <>
             <section className="hero">
               <div className="hero-copy">
-                <p className="eyebrow">Astrology · Numerology · Tarot · Energy guidance</p>
+                <p className="eyebrow">Astrology · Tarot · Energy guidance</p>
                 <h2>Find a little more meaning in your journey.</h2>
                 <p className="lead">
-                  Astrobee 33 offers astrology, numerology, tarot, chakra balancing,
-                  crystal guidance, and cord cutting as reflective practices.
+                  Astrobee 33 offers astrology, tarot, chakra balancing, crystal guidance,
+                  and cord cutting as reflective practices.
                 </p>
 
                 <div className="cta-row">
@@ -198,13 +174,53 @@ function App() {
               <div className="hero-feature">
                 <div className="feature-card feature-card-main">
                   <span className="mini-label">Meet your guide</span>
-                  <h3>Bhumika Rittimath</h3>
-                  <p>Astrologer · Numerologist · Tarot reader · Crystal guide</p>
+                  <h3>Meet Bhumika L. Rittimath</h3>
                   <img
                     src={profileLogo}
                     alt="Astrobee 33 profile logo"
                     className="profile-mark"
                   />
+                  <p>
+                    Vedic Astrology · KP Astrology · Tarot · 3 years of experience
+                  </p>
+                  <div className="guide-summary">
+                    <p>
+                      I guide people through life’s uncertainties with practical,
+                      fearless and honest insights drawn from North and South Indian
+                      astrological traditions.
+                    </p>
+                    <details>
+                      <summary>Read my full introduction</summary>
+                      <p>
+                        I am Bhumika L. Rittimath, a practitioner of Vedic Astrology,
+                        KP Astrology and Tarot, with 3 years of experience in guiding
+                        people through life’s uncertainties.
+                      </p>
+                      <p>
+                        Trained by experienced experts in both North Indian and South
+                        Indian astrological traditions, I bring together different
+                        perspectives to understand life’s challenges.
+                      </p>
+                      <p>
+                        My approach is rooted in understanding karma, aligning everyday
+                        actions and offering practical corrections to help mitigate
+                        challenging planetary influences.
+                      </p>
+                      <p>
+                        Alongside astrology, I also offer cord cutting and chakra
+                        balancing sessions to support emotional and energetic well-being.
+                      </p>
+                      <p>
+                        My purpose is to provide fearless, honest and clear guidance,
+                        helping you find meaningful answers to your life’s questions.
+                      </p>
+                      <p>
+                        Whether it concerns marriage, career, relationships or other
+                        important life decisions, I aim to help you move forward with
+                        greater clarity and confidence.
+                      </p>
+                    </details>
+                  </div>
                 </div>
               </div>
             </section>
@@ -215,12 +231,12 @@ function App() {
                 <span>Explore symbolic themes, cycles, and personal questions.</span>
               </div>
               <div>
-                <strong>Numerology</strong>
-                <span>Reflect on the symbolic meanings and patterns of numbers.</span>
+                <strong>Tarot</strong>
+                <span>Use card symbolism to reflect on questions, patterns, and possible perspectives.</span>
               </div>
               <div>
-                <strong>Tarot & energy practices</strong>
-                <span>Tarot reflection, chakra balancing, crystal guidance, and cord cutting.</span>
+                <strong>Energy practices</strong>
+                <span>Explore chakra balancing, crystal guidance, and cord cutting to set intentions, find balance, and reflect on release.</span>
               </div>
             </section>
 
@@ -286,9 +302,9 @@ function App() {
                 <p className="eyebrow">A little about Astrobee 33</p>
                 <h3>Thoughtful guidance, centered on your questions.</h3>
                 <p>
-                  Astrobee 33 brings together astrology, numerology, tarot, chakra
-                  balancing, crystal guidance, and cord cutting. These practices can offer a
-                  reflective space to explore patterns, intentions, and next steps.
+                  Astrobee 33 brings together astrology, tarot, chakra balancing,
+                  crystal guidance, and cord cutting. These practices can offer a reflective
+                  space to explore patterns, intentions, and next steps.
                 </p>
                 <p>
                   Connect with Bhumika Rittimath to discuss what you are looking for
@@ -300,50 +316,40 @@ function App() {
               </div>
             </section>
 
-            <section className="insights-section">
-              <div className="section-heading">
-                <p className="eyebrow">Astrobee 33 notes</p>
-                <h3>Ideas for reflection</h3>
-                <p className="section-description">
-                  Short educational notes, not predictions. Astrological and numerological
-                  interpretations vary across traditions.
-                </p>
-              </div>
-              <div className="insight-grid">
-                {insights.map((insight) => (
-                  <article className="insight-card" key={insight.title}>
-                    <div className="insight-meta">
-                      <span>{insight.category}</span>
-                      <time dateTime="2026-11-15">{insight.date}</time>
-                    </div>
-                    <h4>{insight.title}</h4>
-                    <p>{insight.description}</p>
-                  </article>
-                ))}
-              </div>
-            </section>
 
             <section className="testimonials-section">
               <div className="section-heading">
                 <p className="eyebrow">Client experiences</p>
-                <h3>Stories, shared with permission</h3>
-              </div>
-              <div className="testimonials-empty">
-                <span className="mini-label">Your experience matters</span>
-                <h4>Client reflections will appear here.</h4>
-                <p>
-                  We only share client feedback with permission. If you have attended a
-                  session and would like to share a reflection, you can contact Astrobee 33
-                  directly.
+                <h3>Customer reviews</h3>
+                <p className="section-description">
+                  Shared feedback from consultation clients. Some messages were
+                  translated from Kannada and lightly edited for readability.
                 </p>
-                <a
-                  href={createWhatsAppLink('Hi Astrobee 33, I’d like to share feedback about a session.')}
-                  className="text-link"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Share a reflection <span aria-hidden="true">→</span>
-                </a>
+              </div>
+              <div className="customer-review-slider" aria-live="polite">
+                {customerReviews.map((review, index) => (
+                  <article
+                    className={`testimonial-card${index === customerReviewIndex ? ' is-active' : ''}`}
+                    key={review.id}
+                    aria-hidden={index !== customerReviewIndex}
+                  >
+                    <span className="mini-label">Client reflection</span>
+                    <h4>{review.title}</h4>
+                    <p>{review.text}</p>
+                  </article>
+                ))}
+                <div className="customer-review-dots" aria-label="Choose a customer review">
+                  {customerReviews.map((review, index) => (
+                    <button
+                      type="button"
+                      key={review.id}
+                      className={index === customerReviewIndex ? 'is-active' : ''}
+                      aria-label={`Show customer review ${index + 1}`}
+                      aria-pressed={index === customerReviewIndex}
+                      onClick={() => setCustomerReviewIndex(index)}
+                    />
+                  ))}
+                </div>
               </div>
             </section>
 
@@ -412,25 +418,22 @@ function App() {
               </form>
             </section>
 
-            <section id="faq" className="faq-section">
-              <div className="section-heading">
-                <p className="eyebrow">Before you book</p>
-                <h3>Frequently asked questions</h3>
-              </div>
-              <div className="faq-list">
-                {faqs.map((faq) => (
-                  <details key={faq.question}>
-                    <summary>{faq.question}</summary>
-                    <p>{faq.answer}</p>
-                  </details>
-                ))}
-              </div>
-            </section>
-
             <section className="profile-link">
-              <div>
-                <span className="status-label">Instagram</span>
-                <strong>@astrobee_33</strong>
+              <div className="profile-socials">
+                <div>
+                  <span className="status-label">Instagram</span>
+                  <strong>@astrobee_33</strong>
+                </div>
+                <div>
+                  <span className="status-label">YouTube</span>
+                  <a
+                    href="https://youtube.com/@astrobee33-w8e?si=AdED7rKHwH5Rh7Om"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    @astrobee33
+                  </a>
+                </div>
               </div>
               <a
                 href="https://www.instagram.com/astrobee_33/"
@@ -447,6 +450,7 @@ function App() {
               and do not guarantee outcomes or replace medical, mental-health, legal, or
               financial advice.
             </footer>
+
           </>
         )}
       </main>

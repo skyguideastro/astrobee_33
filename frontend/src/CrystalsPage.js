@@ -9,8 +9,6 @@ import getPublicUrl from './publicUrl';
 const whatsappNumber = '917795119975';
 const catalogTabs = [
   { id: 'crystals', label: 'Crystals', singular: 'crystal', plural: 'crystals' },
-  { id: 'malas', label: 'Malas', singular: 'mala', plural: 'malas' },
-  { id: 'beads', label: 'Beads', singular: 'bead', plural: 'beads' },
   { id: 'bracelets', label: 'Bracelets', singular: 'bracelet', plural: 'bracelets' },
 ];
 const zodiacSigns = [
@@ -36,84 +34,21 @@ const getCatalogColumnCount = () => {
 };
 
 const crystalTypes = [
-  'Amazonite',
-  'Amber',
-  'Amethyst',
-  'Angelite',
-  'Aquamarine',
-  'Azurite',
-  'Black Obsidian',
-  'Black Tourmaline',
-  'Bloodstone',
-  'Blue Apatite',
-  'Blue Calcite',
-  'Blue Kyanite',
-  'Blue Lace Agate',
-  'Blue Opal',
-  'Bumble Bee Jasper',
-  'Carnelian',
-  'Celestite',
-  'Chrysocolla',
-  'Chrysoprase',
-  'Citrine',
-  'Clear Quartz',
+  'Yellow Sapphire',
   'Emerald',
-  'Garnet',
-  'Dark Green Aventurine',
-  'Light Green Aventurine',
-  'Green Fluorite',
-  'Hematite',
-  'Howlite',
-  'Iolite',
-  'Kambaba Jasper',
-  'Kunzite',
-  'Labradorite',
-  'Lapis Lazuli',
-  'Larimar',
-  'Lepidolite',
-  'Libyan Desert Glass',
-  'Mahogany Obsidian',
-  'Malachite',
-  'Mangano Calcite',
-  'Moldavite',
-  'Moss Agate',
-  'Moonstone',
-  'Multi Fluorite',
-  'Multi Moonstone',
-  'Multi Tiger Eye',
-  'Multi-Tourmaline',
-  'Nephrite Jade',
-  'Orthoceras',
-  'Peach Moonstone',
-  'Peridot',
-  'Petrified Wood',
-  'Pietersite',
-  'Pink Opal',
-  'Prehnite',
-  'Pyrite',
-  'Red Jasper',
-  'Rhodochrosite',
-  'Rhodonite',
-  'Rose Quartz',
+  'Blue Sapphire',
+  'Citrine',
   'Ruby',
-  'Ruby Fuchsite',
-  'Rutilated Quartz',
-  'Selenite',
-  'Septarian',
-  'Seraphinite',
-  'Serpentine',
-  'Shungite',
-  'Smoky Quartz',
-  'Sodalite',
-  'Sulemani Hakik',
-  'Sunstone',
-  'Tanzanite',
-  'Tiger Eye',
-  'Tourmalinated Quartz',
+  'Pearl',
+  'Coral',
   'Turquoise',
-  'Unakite',
-  'Yellow/Orange Calcite',
-  'Yellow Quartz',
+  'Hessonite',
+  'Zircon',
+  'Diamond',
+  "Cat's Eye",
+  'Green Onyx',
+  'Peridot',
+  'Opal',
 ];
 
 const getWhatsAppLink = (product) => {
@@ -150,18 +85,18 @@ function CrystalsPage() {
   });
   const selectedTab = catalogTabs.find((tab) => tab.id === selectedCatalogTab);
   const isCrystalTab = selectedCatalogTab === 'crystals';
-  const filteredProducts = productCatalog.filter((product) => {
-    const matchesTab = product.category === selectedCatalogTab;
-    const matchesSearch = product.name.toLowerCase().includes(search.trim().toLowerCase());
-    const productZodiac = getProductLore(product).zodiac;
-    const matchesZodiac =
-      !selectedZodiac ||
-      productZodiac === 'All zodiac signs' ||
-      productZodiac.split(', ').includes(selectedZodiac);
+  const filteredBracelets = productCatalog.filter((product) => {
+    if (product.category !== 'bracelets') return false;
+    if (!product.name.toLowerCase().includes(search.trim().toLowerCase())) return false;
 
-    return matchesTab && matchesSearch && matchesZodiac;
+    const braceletZodiac = getProductLore(product).zodiac;
+    return (
+      !selectedZodiac ||
+      braceletZodiac === 'All zodiac signs' ||
+      braceletZodiac.split(', ').includes(selectedZodiac)
+    );
   });
-  const filteredItems = isCrystalTab ? filteredCrystals : filteredProducts;
+  const filteredItems = isCrystalTab ? filteredCrystals : filteredBracelets;
   const initialVisibleCount = catalogColumnCount * 2;
   const visibleItems = showAllItems
     ? filteredItems
@@ -190,8 +125,9 @@ function CrystalsPage() {
           <p className="crystals-eyebrow">The Astrobee 33 collection</p>
           <h2>Find a piece that speaks to you.</h2>
           <p>
-            Explore crystals, malas, beads, and bracelets. Message Astrobee 33 for
-            current availability and pricing—no prices are listed here.
+            Explore natural gemstones for loose-stone selection, rings, pendants, and
+            crystal bracelets. Ask about origin, carat or ratti, bead size, certification,
+            metal, setting, and availability.
           </p>
           <div className="crystals-hero-actions">
             <a href="#crystal-catalog" className="crystals-primary-link">
@@ -298,7 +234,7 @@ function CrystalsPage() {
                     <img
                       className="crystal-photo"
                       src={getPublicUrl(crystalImageUrls[crystal])}
-                      alt={`${crystal} crystal`}
+                      alt={`${crystal} gemstone`}
                       loading="lazy"
                       decoding="async"
                     />
@@ -315,6 +251,36 @@ function CrystalsPage() {
                             <dt>Often linked with</dt>
                             <dd>{crystalLore[crystal].zodiac}</dd>
                           </div>
+                          {crystalLore[crystal].planet && (
+                            <div>
+                              <dt>Planet</dt>
+                              <dd>{crystalLore[crystal].planet}</dd>
+                            </div>
+                          )}
+                          {crystalLore[crystal].hindi && (
+                            <div>
+                              <dt>Traditional names</dt>
+                              <dd>{crystalLore[crystal].hindi}</dd>
+                            </div>
+                          )}
+                          {crystalLore[crystal].origin && (
+                            <div>
+                              <dt>Origin / source</dt>
+                              <dd>{crystalLore[crystal].origin}</dd>
+                            </div>
+                          )}
+                          {crystalLore[crystal].benefits && (
+                            <div>
+                              <dt>Traditional significance</dt>
+                              <dd>{crystalLore[crystal].benefits}</dd>
+                            </div>
+                          )}
+                          {crystalLore[crystal].wear && (
+                            <div>
+                              <dt>Setting & wear guidance</dt>
+                              <dd>{crystalLore[crystal].wear}</dd>
+                            </div>
+                          )}
                         </dl>
                       </details>
                       <a
@@ -328,36 +294,36 @@ function CrystalsPage() {
                     </div>
                   </article>
                 ))
-              : visibleItems.map((product) => (
-                  <article className="crystal-item" key={product.id}>
+              : visibleItems.map((bracelet) => (
+                  <article className="crystal-item" key={bracelet.id}>
                     <img
                       className="crystal-photo"
-                      src={getPublicUrl(product.image)}
-                      alt={product.name}
+                      src={getPublicUrl(bracelet.image)}
+                      alt={bracelet.name}
                       loading="lazy"
                       decoding="async"
                     />
                     <div className="crystal-item-copy">
-                      <h4>{product.name}</h4>
+                      <h4>{bracelet.name}</h4>
                       <details className="crystal-details">
                         <summary>Use, significance & zodiac</summary>
                         <dl>
                           <div>
                             <dt>Who may use</dt>
-                            <dd>{getProductLore(product).whoCanUse}</dd>
+                            <dd>{getProductLore(bracelet).whoCanUse}</dd>
                           </div>
                           <div>
                             <dt>Traditional significance</dt>
-                            <dd>{getProductLore(product).significance}</dd>
+                            <dd>{getProductLore(bracelet).significance}</dd>
                           </div>
                           <div>
                             <dt>Often linked with</dt>
-                            <dd>{getProductLore(product).zodiac}</dd>
+                            <dd>{getProductLore(bracelet).zodiac}</dd>
                           </div>
                         </dl>
                       </details>
                       <a
-                        href={getWhatsAppLink(product.name)}
+                        href={getWhatsAppLink(bracelet.name)}
                         target="_blank"
                         rel="noreferrer"
                         className="crystal-inquiry-link"
